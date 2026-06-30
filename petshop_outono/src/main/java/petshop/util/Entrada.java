@@ -1,5 +1,7 @@
 package petshop.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Entrada {
@@ -66,6 +68,18 @@ public class Entrada {
                 return Double.parseDouble(entrada);
             } catch (NumberFormatException e) {
                 System.out.println("! Entrada inválida. Digite um número decimal.");
+            }
+        }
+    }
+
+    public static LocalDate lerData(String mensagem) {
+        while (true) {
+            try {
+                System.out.print(mensagem);
+                String entrada = scanner.nextLine().trim();
+                return LocalDate.parse(entrada);
+            } catch (DateTimeParseException e) {
+                System.out.println("! Data inválida. Use o formato AAAA-MM-DD.");
             }
         }
     }

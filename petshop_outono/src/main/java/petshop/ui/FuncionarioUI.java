@@ -6,7 +6,6 @@ import petshop.util.Entrada;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class FuncionarioUI {
@@ -42,6 +41,10 @@ public class FuncionarioUI {
         }
     }
 
+    // ------------------------------------------------
+    // INTERFACE CADASTRAR FUNCIONÁRIO
+    // ------------------------------------------------
+
     private static void cadastrar() {
         System.out.println("\n--- CADASTRAR FUNCIONÁRIO ---");
 
@@ -50,7 +53,8 @@ public class FuncionarioUI {
                 String cpf = Entrada.lerTextoObrigatorio("CPF (11 dígitos): ");
                 boolean pessoaExiste = funcionarioService.pessoaJaExiste(cpf);
 
-                String nome, dataNasc, genero, email, cidade, bairro, rua, numero, complemento, telefone;
+                String nome, genero, email, cidade, bairro, rua, numero, complemento, telefone;
+                LocalDate dataNasc;
 
                 if (pessoaExiste) {
                     System.out.println("Essa pessoa já está cadastrada. Reaproveitando os dados pessoais.");
@@ -59,7 +63,7 @@ public class FuncionarioUI {
                     complemento = null; telefone = null;
                 } else {
                     nome        = Entrada.lerTextoObrigatorio("Nome completo: ");
-                    dataNasc    = Entrada.lerTextoObrigatorio("Data de nascimento (AAAA-MM-DD): ");
+                    dataNasc    = Entrada.lerData("Data de nascimento (AAAA-MM-DD): ");
                     genero      = Entrada.lerTextoObrigatorio("Gênero: ");
                     email       = Entrada.lerTextoObrigatorio("Email: ");
                     cidade      = Entrada.lerTextoObrigatorio("Cidade: ");
@@ -70,18 +74,17 @@ public class FuncionarioUI {
                     telefone    = Entrada.lerTextoObrigatorio("Telefone: ");
                 }
 
-                String dataAdm = Entrada.lerTextoObrigatorio("Data de admissão (AAAA-MM-DD): ");
+                LocalDate dataAdm = Entrada.lerData("Data de admissão (AAAA-MM-DD): ");
                 String cargo   = Entrada.lerTextoObrigatorio("Cargo: ");
                 String area    = Entrada.lerTextoObrigatorio("Área: ");
                 double salario = Entrada.lerDecimal("Salário: ");
                 String status  = Entrada.lerTextoObrigatorio("Status (ativo/inativo/férias/afastado): ");
 
                 Funcionario funcionario = new Funcionario(
-                    cpf, nome,
-                    dataNasc != null ? LocalDate.parse(dataNasc) : null,
+                    cpf, nome, dataNasc,
                     genero, email, cidade, bairro, rua, numero,
                     complemento != null && !complemento.isBlank() ? complemento : null,
-                    telefone, LocalDate.parse(dataAdm),
+                    telefone, dataAdm,
                     cargo, area, salario, status
                 );
 
@@ -92,15 +95,20 @@ public class FuncionarioUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro de validação: " + e.getMessage());
                 System.out.println("Tente novamente.\n");
-            } catch (DateTimeParseException e) {
-                System.out.println("Data inválida. Use o formato AAAA-MM-DD.");
-                System.out.println("Tente novamente.\n");
             } catch (SQLException e) {
                 System.out.println("Erro no banco de dados: " + e.getMessage());
                 break;
             }
         }
     }
+
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE LISTAR FUNCIONÁRIOS
+    // ------------------------------------------------
 
     private static void listarTodos() {
         System.out.println("\n--- LISTA DE FUNCIONÁRIOS ---");
@@ -122,6 +130,14 @@ public class FuncionarioUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR FUNCIONÁRIO POR ID
+    // ------------------------------------------------
+
     private static void buscarPorId() {
         System.out.println("\n--- BUSCAR FUNCIONÁRIO POR ID ---");
 
@@ -141,6 +157,14 @@ public class FuncionarioUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR FUNCIONÁRIO POR CPF
+    // ------------------------------------------------
+
     private static void buscarPorCpf() {
         System.out.println("\n--- BUSCAR FUNCIONÁRIO POR CPF ---");
 
@@ -159,6 +183,14 @@ public class FuncionarioUI {
             System.out.println("Erro no banco de dados: " + e.getMessage());
         }
     }
+
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE ATUALIZAR FUNCIONÁRIOS
+    // ------------------------------------------------
 
     private static void atualizar() {
         System.out.println("\n--- ATUALIZAR FUNCIONÁRIO ---");
@@ -229,6 +261,14 @@ public class FuncionarioUI {
             }
         }
     }
+
+
+
+
+    
+    // ------------------------------------------------
+    // INTERFACE EXCLUIR FUNCIONÁRIO
+    // ------------------------------------------------
 
     private static void excluir() {
         System.out.println("\n--- EXCLUIR FUNCIONÁRIO ---");

@@ -23,7 +23,6 @@ public class ClienteDAO {
         4. if(rs.next()): se encontrou o cliente, monta o objeto e retorna
         5. return null: se não encontrou nenhum cliente com esse id, retorna null
         */
-
         String sql = "SELECT p.*, c.id_cliente, c.data_cadastro, c.credito " +
                     "FROM cliente c " +
                     "JOIN pessoa p ON c.id_pessoa = p.id_pessoa " +
@@ -75,7 +74,6 @@ public class ClienteDAO {
         6. ResultSet: armazena o resultado como tabela temporária, navegável com rs.next() e rs.get()
         7. rs.next(): avança para a primeira linha, se existir (true) retorna o id_pessoa, senão retorna -1 (não encontrado)
         */
-
         String sql = "SELECT id_pessoa FROM pessoa WHERE cpf = ?";
         // try-with-resources: fechamento automático do conn e stmt no final do bloco, mesmo que ocorra uma exceção
         try (Connection conn = DBConexao.obterConexao();
@@ -105,7 +103,6 @@ public class ClienteDAO {
         * 3. se já existe: reaproveitamos o id_pessoa existente (mesmo CPF, pessoa já cadastrada)
         * 4. insert em cliente fica FORA do if — executa sempre, independente de ter criado pessoa ou não
         */
-
         int idPessoa = buscarIdPessoaPorCpf(cliente.getCpf());
 
         if (idPessoa == -1) {
@@ -144,8 +141,10 @@ public class ClienteDAO {
         stmt.setDate(2, Date.valueOf(cliente.getDataCadastro()));
         stmt.setDouble(3, cliente.getCredito());
         stmt.executeUpdate();
+       }
     }
-}
+
+
 
 
 
@@ -165,7 +164,6 @@ public class ClienteDAO {
         7. lista.add(cliente): adiciona o cliente montado à lista
         8. retorna a lista completa ao final
         */
-
         List<Cliente> lista = new ArrayList<>();
         String sql = "SELECT p.*, c.id_cliente, c.data_cadastro, c.credito " +
                     "FROM cliente c " +
@@ -200,6 +198,8 @@ public class ClienteDAO {
 
 
 
+
+
     // ------------------------------------------------
     // ATUALIZAR CLIENTE
     // ------------------------------------------------
@@ -212,7 +212,6 @@ public class ClienteDAO {
         3. dois try-with-resources separados: um para cada tabela, seguindo a mesma lógica do inserir
         4. executeUpdate(): dispara o UPDATE no banco em ambos os casos
         */
-
         String sqlPessoa = "UPDATE pessoa SET nome_completo = ?, data_nascimento = ?, genero = ?, " +
                         "email = ?, cidade = ?, bairro = ?, rua = ?, numero_endereco = ?, " +
                         "complemento = ?, telefone = ? WHERE cpf = ?";
@@ -248,6 +247,8 @@ public class ClienteDAO {
 
 
 
+
+
     // ------------------------------------------------
     // EXCLUIR CLIENTE
     // ------------------------------------------------
@@ -260,7 +261,6 @@ public class ClienteDAO {
         * 3. verifica se a pessoa também é funcionário antes de deletar
         * 4. só deleta pessoa se não tiver vínculo com funcionario
         */
-
         int idPessoa = -1;
         String sqlBusca = "SELECT id_pessoa FROM cliente WHERE id_cliente = ?";
 

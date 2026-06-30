@@ -28,6 +28,8 @@ public class PetService {
 
 
 
+
+
     // ------------------------------------------------
     // SERVIÇO DE LISTAGEM DE PETS
     // ------------------------------------------------
@@ -35,6 +37,8 @@ public class PetService {
     public List<Pet> buscarTodos() throws SQLException {
         return petDAO.buscarTodos();
     }
+
+
 
 
 
@@ -48,6 +52,8 @@ public class PetService {
 
 
 
+
+
     // ------------------------------------------------
     // SERVIÇO DE BUSCAR PET POR CLIENTE
     // ------------------------------------------------
@@ -55,6 +61,8 @@ public class PetService {
     public List<Pet> buscarPetsPorCliente(int idCliente) throws SQLException {
         return petDAO.buscarPorCliente(idCliente);
     }
+
+
 
 
 
@@ -77,6 +85,8 @@ public class PetService {
 
 
 
+
+    
     // ------------------------------------------------
     // SERVIÇO DE EXCLUIR PET
     // ------------------------------------------------

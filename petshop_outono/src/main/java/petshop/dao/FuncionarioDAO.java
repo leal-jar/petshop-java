@@ -54,6 +54,8 @@ public class FuncionarioDAO {
 
 
 
+
+
     // ------------------------------------------------
     // BUSCAR ID_PESSOA POR CPF
     // ------------------------------------------------
@@ -73,6 +75,8 @@ public class FuncionarioDAO {
             return -1;
         }
     }
+
+
 
 
 
@@ -126,6 +130,8 @@ public class FuncionarioDAO {
 
 
 
+
+
     // ------------------------------------------------
     // LISTAR TODOS FUNCIONÁRIOS
     // ------------------------------------------------
@@ -165,6 +171,8 @@ public class FuncionarioDAO {
         }
         return lista;
     }
+
+
 
 
 
@@ -209,6 +217,11 @@ public class FuncionarioDAO {
         }
     }
 
+
+
+
+
+    
     // ------------------------------------------------
     // EXCLUIR FUNCIONÁRIO
     // ------------------------------------------------

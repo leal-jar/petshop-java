@@ -6,7 +6,6 @@ import petshop.util.Entrada;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class ClienteUI {
@@ -42,7 +41,24 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE CADASTRAR CLIENTE
+    // ------------------------------------------------
+
     private static void cadastrar() {
+
+    /*
+     1. coleta o CPF e verifica se a pessoa já existe no banco
+     2. se já existe: pula os campos de pessoa, reaproveitando os dados
+     3. se não existe: coleta todos os campos de pessoa normalmente
+     4. coleta os campos exclusivos de cliente (data de cadastro e crédito)
+     5. monta o objeto Cliente e envia ao Service
+     6. loop com break no sucesso — em caso de erro de validação ou data, pede novamente
+    */
         System.out.println("\n--- CADASTRAR CLIENTE ---");
 
         while (true) {
@@ -50,7 +66,8 @@ public class ClienteUI {
                 String cpf = Entrada.lerTextoObrigatorio("CPF (11 dígitos): ");
                 boolean pessoaExiste = clienteService.pessoaJaExiste(cpf);
 
-                String nome, dataNasc, genero, email, cidade, bairro, rua, numero, complemento, telefone;
+                String nome, genero, email, cidade, bairro, rua, numero, complemento, telefone;
+                LocalDate dataNasc;
 
                 if (pessoaExiste) {
                     System.out.println("Essa pessoa já está cadastrada. Reaproveitando os dados pessoais.");
@@ -59,7 +76,7 @@ public class ClienteUI {
                     complemento = null; telefone = null;
                 } else {
                     nome        = Entrada.lerTextoObrigatorio("Nome completo: ");
-                    dataNasc    = Entrada.lerTextoObrigatorio("Data de nascimento (AAAA-MM-DD): ");
+                    dataNasc    = Entrada.lerData("Data de nascimento (AAAA-MM-DD): ");
                     genero      = Entrada.lerTextoObrigatorio("Gênero: ");
                     email       = Entrada.lerTextoObrigatorio("Email: ");
                     cidade      = Entrada.lerTextoObrigatorio("Cidade: ");
@@ -70,15 +87,14 @@ public class ClienteUI {
                     telefone    = Entrada.lerTextoObrigatorio("Telefone: ");
                 }
 
-                String dataCad = Entrada.lerTextoObrigatorio("Data de cadastro (AAAA-MM-DD): ");
+                LocalDate dataCad = Entrada.lerData("Data de cadastro (AAAA-MM-DD): ");
                 double credito = Entrada.lerDecimal("Crédito inicial: ");
 
                 Cliente cliente = new Cliente(
-                    cpf, nome,
-                    dataNasc != null ? LocalDate.parse(dataNasc) : null,
+                    cpf, nome, dataNasc,
                     genero, email, cidade, bairro, rua, numero,
                     complemento != null && !complemento.isBlank() ? complemento : null,
-                    telefone, LocalDate.parse(dataCad), credito
+                    telefone, dataCad, credito
                 );
 
                 clienteService.inserir(cliente);
@@ -88,9 +104,6 @@ public class ClienteUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro de validação: " + e.getMessage());
                 System.out.println("Tente novamente.\n");
-            } catch (DateTimeParseException e) {
-                System.out.println("Data inválida. Use o formato AAAA-MM-DD.");
-                System.out.println("Tente novamente.\n");
             } catch (SQLException e) {
                 System.out.println("Erro no banco de dados: " + e.getMessage());
                 break;
@@ -98,7 +111,21 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE LISTAR CLIENTES
+    // ------------------------------------------------
+
     private static void listarTodos() {
+
+    /*
+     1. busca todos os clientes via Service
+     2. se a lista estiver vazia, avisa o usuário
+     3. percorre a lista exibindo cada cliente (usa o toString sobrescrito)
+    */
         System.out.println("\n--- LISTA DE CLIENTES ---");
 
         try {
@@ -118,7 +145,21 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR CLIENTE POR ID
+    // ------------------------------------------------
+
     private static void buscarPorId() {
+
+    /*
+     1. coleta o id digitado
+     2. busca o cliente via Service (overload por int)
+     3. exibe o cliente ou avisa que não foi encontrado
+    */
         System.out.println("\n--- BUSCAR CLIENTE POR ID ---");
 
         try {
@@ -137,7 +178,21 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR CLIENTE POR CPF
+    // ------------------------------------------------
+
     private static void buscarPorCpf() {
+
+    /*
+     1. coleta o CPF digitado
+     2. busca o cliente via Service (overload por String)
+     3. exibe o cliente ou avisa que não foi encontrado
+    */
         System.out.println("\n--- BUSCAR CLIENTE POR CPF ---");
 
         try {
@@ -156,7 +211,23 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE ATUALIZAR CLIENTE
+    // ------------------------------------------------
+
     private static void atualizar() {
+
+    /*
+     1. busca o cliente pelo id informado
+     2. exibe os dados atuais e pede os novos (Enter mantém o valor atual)
+     3. atualiza apenas os campos preenchidos
+     4. envia o objeto atualizado ao Service
+     5. loop com break no sucesso — em caso de erro de validação, pede novamente
+    */
         System.out.println("\n--- ATUALIZAR CLIENTE ---");
 
         while (true) {
@@ -217,7 +288,21 @@ public class ClienteUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE EXCLUIR CLIENTE
+    // ------------------------------------------------
+
     private static void excluir() {
+
+    /*
+     1. busca o cliente pelo id informado
+     2. exibe os dados e pede confirmação antes de excluir
+     3. se confirmado, chama o Service para excluir
+    */
         System.out.println("\n--- EXCLUIR CLIENTE ---");
 
         try {

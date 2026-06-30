@@ -1,17 +1,19 @@
 package petshop.ui;
 
+import petshop.model.Cliente;
 import petshop.model.Pet;
+import petshop.service.ClienteService;
 import petshop.service.PetService;
 import petshop.util.Entrada;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class PetUI {
 
     private static final PetService petService = new PetService();
+    private static final ClienteService clienteService = new ClienteService();
 
     public static void exibirMenu() {
         int opcao = -1;
@@ -42,6 +44,14 @@ public class PetUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE CADASTRAR PET
+    // ------------------------------------------------
+
     private static void cadastrar() {
         System.out.println("\n--- CADASTRAR PET ---");
 
@@ -49,20 +59,20 @@ public class PetUI {
             try {
                 int idCliente    = Entrada.lerInteiro("ID do cliente dono do pet: ");
                 String nome      = Entrada.lerTextoObrigatorio("Nome do pet: ");
-                String dataCad   = Entrada.lerTextoObrigatorio("Data de cadastro (AAAA-MM-DD): ");
+                LocalDate dataCad = Entrada.lerData("Data de cadastro (AAAA-MM-DD): ");
                 String animal    = Entrada.lerTextoObrigatorio("Animal (cão/gato/etc): ");
                 String sexo      = Entrada.lerTextoObrigatorio("Sexo (M/F): ");
                 String raca      = Entrada.lerTextoObrigatorio("Raça: ");
-                String dataNasc  = Entrada.lerTextoObrigatorio("Data de nascimento (AAAA-MM-DD): ");
+                LocalDate dataNasc = Entrada.lerData("Data de nascimento (AAAA-MM-DD): ");
                 double peso      = Entrada.lerDecimal("Peso (kg): ");
                 String alergia   = Entrada.lerTextoObrigatorio("Alergia (ou 'nenhuma'): ");
                 String restricao = Entrada.lerTextoObrigatorio("Restrição (ou 'nenhuma'): ");
                 String comportamento = Entrada.lerTextoObrigatorio("Comportamento: ");
 
                 Pet pet = new Pet(
-                    idCliente, nome, LocalDate.parse(dataCad),
+                    idCliente, nome, dataCad,
                     animal, sexo.charAt(0), raca,
-                    LocalDate.parse(dataNasc), peso,
+                    dataNasc, peso,
                     alergia, restricao, comportamento
                 );
 
@@ -73,15 +83,20 @@ public class PetUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro de validação: " + e.getMessage());
                 System.out.println("Tente novamente.\n");
-            } catch (DateTimeParseException e) {
-                System.out.println("Data inválida. Use o formato AAAA-MM-DD.");
-                System.out.println("Tente novamente.\n");
             } catch (SQLException e) {
                 System.out.println("Erro no banco de dados: " + e.getMessage());
                 break;
             }
         }
     }
+
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE LISTAR PETS
+    // ------------------------------------------------
 
     private static void listarTodos() {
         System.out.println("\n--- LISTA DE PETS ---");
@@ -103,6 +118,14 @@ public class PetUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR PET POR ID
+    // ------------------------------------------------
+
     private static void buscarPorId() {
         System.out.println("\n--- BUSCAR PET POR ID ---");
 
@@ -122,12 +145,29 @@ public class PetUI {
         }
     }
 
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE BUSCAR PET POR CLIENTE
+    // ------------------------------------------------
+
     private static void listarPorCliente() {
         System.out.println("\n--- LISTAR PETS POR CLIENTE ---");
 
         try {
             int idCliente = Entrada.lerInteiro("ID do cliente: ");
+
+            Cliente cliente = clienteService.buscarCliente(idCliente);
+            if (cliente == null) {
+                System.out.println("Cliente não encontrado.");
+                return;
+            }
+
             List<Pet> lista = petService.buscarPetsPorCliente(idCliente);
+
+            System.out.println("Pets de: " + cliente.getNomeCompleto());
 
             if (lista.isEmpty()) {
                 System.out.println("Nenhum pet encontrado para esse cliente.");
@@ -142,6 +182,14 @@ public class PetUI {
             System.out.println("Erro no banco de dados: " + e.getMessage());
         }
     }
+
+
+
+
+
+    // ------------------------------------------------
+    // INTERFACE ATUALIZAR PET
+    // ------------------------------------------------
 
     private static void atualizar() {
         System.out.println("\n--- ATUALIZAR PET ---");

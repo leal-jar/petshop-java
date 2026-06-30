@@ -38,6 +38,8 @@ public class FuncionarioService {
 
 
 
+
+
     // ------------------------------------------------
     // SERVIÇO DE LISTAGEM DE FUNCIONÁRIOS
     // ------------------------------------------------
@@ -48,6 +50,8 @@ public class FuncionarioService {
 
 
 
+
+
     // ------------------------------------------------
     // SERVIÇO DE BUSCAR FUNCIONÁRIO POR ID
     // ------------------------------------------------
@@ -55,6 +59,8 @@ public class FuncionarioService {
     public Funcionario buscarFuncionario(int idFuncionario) throws SQLException {
         return funcionarioDAO.buscarPorId(idFuncionario);
     }
+
+
 
 
 
@@ -71,6 +77,8 @@ public class FuncionarioService {
         }
         return null;
     }
+
+
 
 
 
@@ -96,6 +104,8 @@ public class FuncionarioService {
 
 
 
+
+
     // ------------------------------------------------
     // SERVIÇO DE EXCLUIR FUNCIONÁRIO
     // ------------------------------------------------
@@ -108,6 +118,8 @@ public class FuncionarioService {
         funcionarioDAO.excluir(idFuncionario);
     }
 
+
+    
 
 
     // ------------------------------------------------

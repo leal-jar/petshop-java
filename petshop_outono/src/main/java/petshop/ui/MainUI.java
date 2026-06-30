@@ -10,8 +10,8 @@ public class MainUI {
         while (opcao != 0) {
             System.out.println();
             System.out.println("======== PETSHOP OUTONO ========");
-            System.out.println("              ...               ");
-            System.out.println("    Mateus Ortiz e João Leal    ");
+            System.out.println("               ...              ");
+            System.out.println("         Menu Principal         ");
             System.out.println();
             System.out.println("(1) Clientes                    ");
             System.out.println("(2) Funcionários                ");
