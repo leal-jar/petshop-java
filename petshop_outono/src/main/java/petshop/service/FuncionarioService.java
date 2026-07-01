@@ -2,10 +2,12 @@ package petshop.service;
 
 import petshop.dao.FuncionarioDAO;
 import petshop.model.Funcionario;
+import petshop.util.ICrud;
+
 import java.sql.SQLException;
 import java.util.List;
 
-public class FuncionarioService {
+public class FuncionarioService implements ICrud<Funcionario>{
 
     private FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 

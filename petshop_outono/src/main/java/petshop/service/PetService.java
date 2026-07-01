@@ -2,10 +2,12 @@ package petshop.service;
 
 import petshop.dao.PetDAO;
 import petshop.model.Pet;
+import petshop.util.ICrud;
+
 import java.sql.SQLException;
 import java.util.List;
 
-public class PetService {
+public class PetService implements ICrud<Pet>{
 
     private PetDAO petDAO = new PetDAO();
 

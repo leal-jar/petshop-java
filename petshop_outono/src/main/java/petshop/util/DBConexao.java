@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class DBConexao {
 
     private static final String URL     = "jdbc:mysql://127.0.0.1:3306/Petshop_DB_Teste?useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true";
-    private static final String USUARIO = "usuario";
-    private static final String SENHA   = "senha";
+    private static final String USUARIO = "leal";
+    private static final String SENHA   = "12245a";
 
     private static Connection conexao;
 

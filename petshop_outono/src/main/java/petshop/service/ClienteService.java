@@ -2,10 +2,14 @@ package petshop.service;
 
 import petshop.dao.ClienteDAO;
 import petshop.model.Cliente;
+import petshop.util.ICrud;
+
 import java.sql.SQLException;
 import java.util.List;
 
-public class ClienteService {
+
+// Interface obriga a utilizar certos métodos, caso não possua algum, dá erro de compilação
+public class ClienteService implements ICrud<Cliente> {
 
     private ClienteDAO clienteDAO = new ClienteDAO();
 
