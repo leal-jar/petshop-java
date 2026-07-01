@@ -8,9 +8,12 @@ public class Entrada {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private Entrada() {
-    }
+    /* Ao contrário de DAOs e Services, esta classe possui apenas métodos
+    static(diferente de DAOs ou Services), portanto não faz sentido criar objetos dela.
+    O construtor privado impede que alguém faça new Entrada().*/
+    private Entrada() {}
 
+    // Recebe o dado, corta os espaços extras com trim, se estiver vazio volta a pedir dados
     public static String lerTextoObrigatorio(String mensagem) {
         while (true) {
             System.out.print(mensagem);
@@ -25,6 +28,7 @@ public class Entrada {
     }
 
     
+    // Aceita basicamente tudo, só corta os espaços adicionais
     public static String lerTextoOpcional(String mensagem) {
         System.out.print(mensagem);
         return scanner.nextLine().trim();
@@ -32,7 +36,8 @@ public class Entrada {
 
 
 
-    // Lê um número inteiro válido
+    /* Lê uma entrada, corta os espaços extras e tenta transformar em inteiro,
+    se o método parseInt não funcionar, pede de novo*/
     public static int lerInteiro(String mensagem) {
         while (true) {
             System.out.print(mensagem);
@@ -53,7 +58,7 @@ public class Entrada {
 
 
 
-    // Lê um número decimal válido
+    // Mesma coisa do lerInteiro, apenas troca o método de parseInt para parseDouble
     public static double lerDecimal(String mensagem) {
         while (true) {
             System.out.print(mensagem);
@@ -72,6 +77,9 @@ public class Entrada {
         }
     }
 
+
+    /* Lê a string, retira os espaços extras, tenta transformar a string com LocalDate.parse,
+    se não for possível, pede os dados novamente */
     public static LocalDate lerData(String mensagem) {
         while (true) {
             try {

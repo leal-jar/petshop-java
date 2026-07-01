@@ -4,14 +4,14 @@
 
 ### ClienteService
 ```java
-public Cliente buscarCliente(int idCliente)  // busca por ID
-public Cliente buscarCliente(String cpf)     // busca por CPF
+public Cliente buscarCliente(int idCliente)
+public Cliente buscarCliente(String cpf)
 ```
 
 ### FuncionarioService
 ```java
-public Funcionario buscarFuncionario(int idFuncionario)  // busca por ID
-public Funcionario buscarFuncionario(String cpf)         // busca por CPF
+public Funcionario buscarFuncionario(int idFuncionario)
+public Funcionario buscarFuncionario(String cpf)
 ```
 
 ---
@@ -25,14 +25,12 @@ Cada subclasse sobrescreve o método à sua maneira:
 - `Funcionario` → exibe id, nome, CPF, cargo, área, salário e status
 - `Pet` → exibe id, nome, animal, raça e peso
 
-Na prática, o Java decide em tempo de execução qual implementação chamar:
-
 ```java
 Pessoa p1 = new Cliente(...);
 Pessoa p2 = new Funcionario(...);
 
-System.out.println(p1); // executa toString() de Cliente
-System.out.println(p2); // executa toString() de Funcionario
+System.out.println(p1);
+System.out.println(p2);
 ```
 
 ---
@@ -50,13 +48,13 @@ As subclasses sobrescrevem com `@Override`:
 
 ## Herança — subclasse herda atributos e métodos da superclasse
 
-`Pessoa` é a superclasse abstrata com os atributos comuns:
+`Pessoa` é a superclasse com os atributos comuns:
 cpf, nome, data de nascimento, gênero, email, endereço e telefone.
 
 As subclasses herdam tudo de `Pessoa` e adicionam seus próprios atributos:
 
-- `Cliente extends Pessoa` → adiciona id_cliente, data de cadastro e crédito
-- `Funcionario extends Pessoa` → adiciona id_funcionario, data de admissão, cargo, área, salário e status
+- `Cliente extends Pessoa`: adiciona id_cliente, data de cadastro e crédito
+- `Funcionario extends Pessoa`: adiciona id_funcionario, data de admissão, cargo, área, salário e status
 
 ```java
 public class Cliente extends Pessoa { ... }
@@ -65,3 +63,26 @@ public class Funcionario extends Pessoa { ... }
 
 Ao instanciar um `Cliente`, o construtor chama `super()` reaproveitando
 o construtor de `Pessoa` antes de inicializar os campos próprios do cliente.
+
+---
+
+## Interface — padronização das operações básicas
+
+`ICrud` é a classe que define quais métodos devem ser implementados em certas classes
+
+```java
+public interface ICrud<T> {
+    void inserir(T obj) throws SQLException; // Obrigatório possuir um método inserir
+    void atualizar(T obj) throws SQLException; // Obrigatório possuir um método atualizar
+    void excluir(int id) throws SQLException; // Obrigatório possuir um método excluir
+    List<T> buscarTodos() throws SQLException; // Obrigatório possuir um método buscarTodos
+}
+```
+
+As classes `Services` utilizam essa interface
+
+```java 
+public class ClienteService implements ICrud<Cliente> { ... }
+public class FuncionarioService implements ICrud<Funcionario> { ... }
+public class PetService implements ICrud<Pet> { ... }
+```

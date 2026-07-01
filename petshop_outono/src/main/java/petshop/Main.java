@@ -14,15 +14,12 @@ public class Main {
         System.out.println("             ...              ");
         System.out.println("(Insira as credenciais de administrador para continuar)");
         System.out.println();
-
         String usuario = Entrada.lerTextoObrigatorio("Usuário: ");
         String senha   = Entrada.lerTextoObrigatorio("Senha: ");
 
         if (usuario.equals(USUARIO_ADM) && senha.equals(SENHA_ADM)) {
-            System.out.println();
             System.out.println("Login realizado com sucesso!");
-            System.out.println("----------------------------");
-            System.out.println();
+            System.out.println("\n".repeat(3));
             MainUI.exibirMenu();
         } else {
             System.out.println("! Usuário ou senha incorretos. Encerrando...");
